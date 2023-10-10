@@ -21,33 +21,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<int> _SendForm() async {
     int status = 0;
-    final String username;
-    final String useremail;
-    final int userid;
 
     if (_formKey.currentState!.validate()) {
+
       String email = _emailController.text;
       String password = _passwordController.text;
       String name = _nameController.text;
+
       var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       };
 
-      var request = http.Request('POST', Uri.parse('http://localhost:8080'));
+      var request = http.Request('POST', Uri.parse('https://nexusfocusbackend.fernandolucas8.repl.co/register'));
 
-      request.bodyFields = {
-        'route': 'create',
-        'name': name,
-        'email': email,
-        'pass': password
-      };
+      request.body = json.encode({
+        "name": name,
+        "email": email,
+        "pass": password
+      });
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
-      if (response.statusCode == 200) {
-        status = 200;
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        status = 201;
       } else {
         status = response.statusCode;
       }
@@ -177,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () async {
                         if(_formKey.currentState!.validate()){
                           int res = await _SendForm();
-                          if(res != 200){
+                          if(res != 201){
                             showCupertinoModalPopup(
                                 context: context,
                                 builder: (BuildContext context) {

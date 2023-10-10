@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nexus_focus/utils/colors.dart';
 import 'package:nexus_focus/widgets/custom_buttom.dart';
 import 'package:http/http.dart' as http;
@@ -24,26 +25,34 @@ class _LoginScreenState extends State<LoginScreen> {
     final int userid;
 
     if (_formKey.currentState!.validate()) {
+
       String email = _emailController.text;
       String password = _passwordController.text;
+
       var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       };
 
-      var request = http.Request('POST', Uri.parse('http://10.0.2.2:8080'));
+      var request = http.Request('POST', Uri.parse('https://nexusfocusbackend.fernandolucas8.repl.co/login'));
 
-      request.bodyFields = {
-        'route': 'login',
-        'email': email,
-        'pass': password
-      };
+      request.body = json.encode({
+        "email": email,
+        "pass": password
+      });
 
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
+
         status = 200;
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        var resBody = await response.stream.bytesToString();
+        var jsonBody = jsonDecode(resBody);
+        print(jsonBody);
+
       } else {
         status = response.statusCode;
       }
@@ -173,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               });
                         } else {
-                          Navigator.pushNamed(context, '/routines');
+                          Navigator.pushNamed(context, '/main');
                         }
                       }
                     }),

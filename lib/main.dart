@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nexus_focus/screens/main_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nexus_focus/screens/home_screen.dart';
 import 'package:nexus_focus/screens/login_screen.dart';
 import 'package:nexus_focus/screens/register_screen.dart';
 import 'package:nexus_focus/screens/routine_screen.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => Home(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
+        '/main': (context) => MainPage(),
         '/routines': (context) => RoutineScreen(),
       },
     );
@@ -48,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Expanded(
           child: Home(),
         ),
-      )
+      ),
     );
   }
 }

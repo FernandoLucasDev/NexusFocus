@@ -29,6 +29,9 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   http: ^0.13.4
+  shared_preferences: ^2.0.8
+  circular_menu: ^2.0.1
+  audioplayers: ^5.2.0
   flutter:
     sdk: flutter
 
@@ -63,6 +66,7 @@ flutter:
   assets:
     - assets/fonts/
     - assets/img/
+    - assets/sounds/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
